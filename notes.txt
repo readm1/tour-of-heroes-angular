@@ -1,8 +1,8 @@
 Create a new project
 
     Set up your environment
-        *** Requires node.js - https://nodejs.org/en/ (awaiting deployment - ready by 12:30 14/01/22)
-        Install angular CLI 
+        Requires node.js - https://nodejs.org/en/
+        *** Install angular CLI 
             |=> `npm install -g @angular/cli`
         Create a workshop and initial app
             |=> `ng new <app-name>`
