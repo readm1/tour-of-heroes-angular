@@ -19,3 +19,47 @@ Create a new project
             app.component.ts (class code, written in TypeScript)
             app.component.html (component template, written in HTML)
             app.component.css (private CSS styles)
+
+Create a new component
+
+    Generate a new component using the Angular CLI
+        `ng generate component <component-name>`
+    Will be stored in a new folder - `src/app/<component-name>`
+    Generates same three files as above
+    
+    Always import Component from the Angular core library & annotate the component class with @Component
+        @Component specifies the Angular metadata for the component
+        Properties include:
+            `selector` - CSS element selector
+            `templateUrl` - location of the template
+            `styleUrls` - location of private CSS styles
+        `ngOnInit()` is called by Angular shortly after creating a component
+            A good place to put initialization logic
+        exporting the component class makes it possible to import elsewhere (`AppModule` for instance)
+
+    Add a property to <component-name>.component.ts
+        property = 'Hello';
+    Bind it to <component-name>.component.html
+        <h2>{{property}}</h2>
+    Display the property by adding it to the template of the shell `AppComponent` (src/app/app.component.html) using the @Component selector 
+        <component-selector></component-selector>
+
+    Use Angular's built in pipes/create your own to format strings, currency amounts, dates etc.
+        <h2>{{ component-value | uppercase}}</h2>
+            |=> COMPONENT VALUE
+
+Two-way binding
+
+    Data flows from the component class out to the screen and from the screen back to the class
+    `[(ngModel)]` is Angular's two-way binding syntax
+    It references the HTML property
+        `<input id="name" [(ngModel)]="hero.name" placeholder="name">`
+    ngModel isn't available by default\
+    In app.module.ts:
+        `import { FormsModule } from '@angular/forms';` (where the ngModel lives)
+    and add to @NgModule imports:
+        `imports: [BrowserModule, FormsModule]`
+
+Declaring Components
+
+    Every component must be declared in exactly one NgModule
