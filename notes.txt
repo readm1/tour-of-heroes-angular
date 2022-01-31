@@ -68,3 +68,30 @@ Lists
 
     `*ngFor` is Angular's repeater directive. It repeats the host element for each element in a listen
         Similar concept to a for-of loop
+
+Styling
+
+    Styles and stylesheets identified in @Component metadata are scoped to that specific component
+    For example, `hello.component.css` styles apply only to the HelloComponent and don't affect the
+    outer HTML or the HTML in any other component
+
+Handling a click event
+
+    Use Angular's event binding syntax to listen for an item click event
+        `<li *ngFor="let hero for heroes" (click)="onSelect(hero)">`
+            - `*ngFor` is Angular's repeater directive
+            - `let hero for heroes` selects each individual hero in the list of heroes
+            - the parentheses around `(click)` tell Angular to listen for the <li> element's click event
+            - when the user clicks inside the <li>, Angular executes the `onSelect(hero)` expression
+
+Hide empty values
+
+    Components can only display elements if they exist. When you have a value that is empty as a default,
+    wrap the HTML in a <div>, add Angular's `*ngIf` directive to the <div> and set it to the currently empty variable
+        <div *ngIf="<defaultEmpty>"
+    *ngIf removes the item from the DOM if it is undefined
+
+Adding a CSS CLass Conditionally
+
+    Use class binding to add/remove CSS classes conditionally
+        `[class.some-css-class]="some-condition"`
