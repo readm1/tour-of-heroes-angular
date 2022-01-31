@@ -63,3 +63,8 @@ Two-way binding
 Declaring Components
 
     Every component must be declared in exactly one NgModule
+
+Lists
+
+    `*ngFor` is Angular's repeater directive. It repeats the host element for each element in a listen
+        Similar concept to a for-of loop
