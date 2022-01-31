@@ -91,7 +91,21 @@ Hide empty values
         <div *ngIf="<defaultEmpty>"
     *ngIf removes the item from the DOM if it is undefined
 
-Adding a CSS CLass Conditionally
+Adding a CSS class conditionally
 
     Use class binding to add/remove CSS classes conditionally
         `[class.some-css-class]="some-condition"`
+
+Create a feature component
+
+    Keeping all features in one component as the application grows is not maintainable
+    Instead, split larger components into smaller sub-components, each focussed on a specific task/workflow
+        Use the Angular CLI to generate a new component
+        |=> `ng generate component component-name`
+            - creates a directory `src/app/component-name`
+            - fills the directory with:
+                - CSS file for component styles
+                - HTML file for component template
+                - TypeScript file with a component class named `ComponentNameComponent`
+                - a test file for the `ComponentNameComponent` class
+            - adds `ComponentNameComponent` as a declaration int the @NgModule decorator of the `src/app/app.module.ts` file
