@@ -16,9 +16,9 @@ Create a new project
     Components are the building blocks of an Angular app. They display data and listen for/respond to user input
         Components are stored in src/app
         The application shell is controlled by the component `AppComponent`, which is broken down in to three files:
-            app.component.ts (class code, written in TypeScript)
-            app.component.html (component template, written in HTML)
-            app.component.css (private CSS styles)
+            app.component.ts (class code, written in TypeScript) - CLASS FILE
+            app.component.html (component template, written in HTML) - TEMPLATE
+            app.component.css (private CSS styles) - STYLE
 
 Create a new component
 
@@ -100,12 +100,49 @@ Create a feature component
 
     Keeping all features in one component as the application grows is not maintainable
     Instead, split larger components into smaller sub-components, each focussed on a specific task/workflow
+    This helps to abstract your code and make sure that each individual building block takes care of a single function
+
+***** FOR THIS EXAMPLE I AM MAKING A "HELLO WORLD" SUB-COMPONENT OF AN ORIGINAL "HELLO" COMPONENT *****
+
         Use the Angular CLI to generate a new component
-        |=> `ng generate component component-name`
-            - creates a directory `src/app/component-name`
+        |=> `ng generate component hello-world`
+            - creates a directory `src/app/hello-world`
             - fills the directory with:
                 - CSS file for component styles
                 - HTML file for component template
-                - TypeScript file with a component class named `ComponentNameComponent`
-                - a test file for the `ComponentNameComponent` class
-            - adds `ComponentNameComponent` as a declaration int the @NgModule decorator of the `src/app/app.module.ts` file
+                - TypeScript file with a component class named `HelloWorldComponent`
+                - a test file for the `HelloWorldComponent` class
+            - adds `HelloWorldComponent` as a declaration int the @NgModule decorator of the `src/app/app.module.ts` file
+
+Add the @Input() property
+
+    The `HelloWorldComponent` template binds to the component's `hello` property which is of type `Hello`
+        Open the `HelloWorldComponent` and import the `Hello` symbol (hello-world.component.ts)
+            `import { Hello } from '../hello';`
+        The `hello` property must be an Input property, annotated with the `@Input()` decorator, because the external
+        HelloComponent will bind to it like this (in original hello.component.html file)
+            `<app-hello-world [hello]="goodMorning"></app-hello-world>
+        Amend the `@angular/core` import statement (in hello-world.component.ts) to include the Input symbol
+            `import { Component, OnInit } from '@angular/core';` ==BECOMES==> `import { Component, OnInit, Input } from '@angular/core';`
+        Add a `hello` property, preceded by the `@Input()` decorator (also in hello-world.component.ts)
+            `@Input() hello?: Hello;`
+
+Show the HelloWorldComponent
+
+    - Instead of having a `HelloComponent` that takes care of multiple logic functions, the new setup enables you to
+    delegate logic to the `HelloWorldComponent`
+    - The two components have a 'parent/child' relationship. The parent `HelloComponent` controls the `HelloWorldComponent`
+    - You won't change the `HelloComponent` class, but you will change it's template
+    Update the `HelloComponent` template:
+        - The `HelloWorldComponent` selector is 'app-hello-world'. Add an `<app-hello-world>` element near the bottom
+        of the `HelloComponent` template (hello.component.html), where the hello world view used to be
+        - Bind the `HelloWorld.goodMorning` to the element's `hello` property:
+            `<app-hello-world [hello]="goodMorning"></app-hello-world>` ***I think we've already done this...?***
+        - `[hello]="goodMorning"` is an Angular "property binding". It's a one way data binding from the `goodMorning` property of the `HelloComponent`
+        to the `hello` property of the target element, which maps to the `hello` property of the `HelloWorldComponent`.
+    - By doing this, the functionality of the app has not changed, but refactoring the original `HelloComponent` yields the
+    following benefits, both now and in the future:
+        - Reduced responsibilities for the `HelloComponent`
+        - The new `HelloWorldComponent` can evolve without needing to edit/alter the parent `HelloComponent`
+        - The original `HelloComponent` can evolve without affecting the child `HelloWorldComponent`
+        - You can reuse the template of the `HelloWorldComponent` when creating new components in the future
