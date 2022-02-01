@@ -104,15 +104,15 @@ Create a feature component
 
 ***** FOR THIS EXAMPLE I AM MAKING A "HELLO WORLD" SUB-COMPONENT OF AN ORIGINAL "HELLO" COMPONENT *****
 
-        Use the Angular CLI to generate a new component
-        |=> `ng generate component hello-world`
-            - creates a directory `src/app/hello-world`
-            - fills the directory with:
-                - CSS file for component styles
-                - HTML file for component template
-                - TypeScript file with a component class named `HelloWorldComponent`
-                - a test file for the `HelloWorldComponent` class
-            - adds `HelloWorldComponent` as a declaration int the @NgModule decorator of the `src/app/app.module.ts` file
+    Use the Angular CLI to generate a new component
+    |=> `ng generate component hello-world`
+        - creates a directory `src/app/hello-world`
+        - fills the directory with:
+            - CSS file for component styles
+            - HTML file for component template
+            - TypeScript file with a component class named `HelloWorldComponent`
+            - a test file for the `HelloWorldComponent` class
+        - adds `HelloWorldComponent` as a declaration int the @NgModule decorator of the `src/app/app.module.ts` file
 
 Add the @Input() property
 
@@ -146,3 +146,18 @@ Show the HelloWorldComponent
         - The new `HelloWorldComponent` can evolve without needing to edit/alter the parent `HelloComponent`
         - The original `HelloComponent` can evolve without affecting the child `HelloWorldComponent`
         - You can reuse the template of the `HelloWorldComponent` when creating new components in the future
+
+Add Services
+
+    Components shouldn't fetch or save data directly. They should focus on presenting data and delegate data access to a Service
+
+    ***** FOR THIS EXAMPLE I AM MAKING A `HelloService` THAT ALL COMPONENTS CAN USE TO GET GREETINGS *****
+        |=> Instead of creating the service with the `new` keyword, I'll be using Angular's dependency injection to
+        inject in to the HelloComponent constructor
+    Services are a great way to share information among classes that don't know each other. I'll be creating a `GreetingService` and injecting it in to...
+        - `HeroService`, which will use it to send a greeting
+        - `GreetingsComponent`, which will display that message
+
+Create the HelloService
+
+    
