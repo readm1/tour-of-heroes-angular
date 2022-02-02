@@ -217,4 +217,30 @@ Create a Service
             - Instead call the Get method inside `ngOnInit()`, leaving Angular to call it when necesarry after constructing the component
           ``ngOnInit(): void {
               this.getHello();
-            }``  
+            }``
+    
+    Observable Data
+        - Currently, the Get method has a "synchronous signature", implying that it fetches data synchronously. This means that the data should
+        be returned instantly, or the browser would freeze the UI while waiting for a response. This means tha fetching data from a remote server
+        needs to be done "asynchronously" - the service receives a callback when the data has been received, allowing the browser to continue working
+        as normal while the request is handled
+        - `Observable` is one of the key classes in the RxJS library - import `Observable` in your `service.ts` file
+            `import { Observable, of } from 'rxjs';
+        - Update your Get method
+          ``getHello(): Observable<Hello[]> {
+              const hello = of(HELLO);
+              return hello;
+            } ``
+        - Subscribe in child Component
+            - The Get method used to return a `Hello[]`. It now returns an `Observable<Hero[]>`. The Get method in the child component .ts file
+            needs to be updated to reflect this change
+            FROM
+              ``getHello(): void {
+                  this.hello = this.helloService.getHello();
+                }``
+            TO
+              ``getHello(): void {
+                  this.hello = this.helloService.getHello().subscribe(hello => (this.hello = hello));
+                }``
+            - This means that the service will wait for the Observable to return. The `subscribe()` method passes the returned data to the callback,
+            and sets the value of the `hello` property
