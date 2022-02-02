@@ -200,4 +200,21 @@ Create a Service
                     })``
             - When provided at the root level, Angular creates a single, shared instance of the service and injects it in to any class
             that requests it. Angular will also remove the service is it ends up not being used, optimizing the application
-            
+
+    Update your Components
+        - Make sure to update any components that had previously been accessing data from other sources and update any property definitions
+        - You will also need to add a private service parameter to the constructor:
+            `constructor(private helloService: HelloService) {}`
+            |=> This both defines the `helloService` property and identifies it as a `HelloService` injection site
+            Now, when Angular creates a component, the dependency injection system sets the service parameter to the instance of `HelloService`
+        - Create a Get method to retrieve data from the service
+          ``getHello(): void {
+              this.hello = this.helloService.getHello();
+            }``
+        - Call the Get method in `ngOnInit()`
+            - It would be possible to call the Get method in the constructor, but the constructor should be reserved for minimal initialization.
+            The constructor shouldn't DO anything beyond what is necesarry in the construction of the component
+            - Instead call the Get method inside `ngOnInit()`, leaving Angular to call it when necesarry after constructing the component
+          ``ngOnInit(): void {
+              this.getHello();
+            }``  
