@@ -244,3 +244,67 @@ Create a Service
                 }``
             - This means that the service will wait for the Observable to return. The `subscribe()` method passes the returned data to the callback,
             and sets the value of the `hello` property
+    
+    Show Messages
+        - Create a MessageComponent using the CLI
+            `ng generate component messages`
+            |=> component files will be created in `src/app/messages`
+            |=> `MessagesComponent` will be declared in `AppModule`
+        - Modify `src/app/app.component.html` to display `MessagesComponent`
+            |=> `<app-messages></app-messages>`
+            |=> This will log the default paragraph generated in `MessagesComponent` at the bottom of the app page
+        - Create the `MessageService` in `src/app`
+            'ng generate service message`
+        - Replace the content of `MessageService` with the following:
+
+        ``  import { Injectable } from '@angular/core';
+
+            @Injectable({
+                providedIn: 'root',
+            })
+            export class MessageService {
+                messages: string[] = [];
+
+                add(message: string) {
+                    this.messages.push(message);
+                }
+
+                clear() {
+                    this.messages = [];
+                }
+            } ``
+            |=> The service will show it's cache of messages and has two new methods: `add()` adds a message to the cache
+            and `clear()` (surprisingly) clears the cache
+        - Inject `MessageService` into `HelloService` & modify the constructor
+            - In your `service.ts` file:
+                `import { MessageService } from './message.service';`
+                `constructor(private messageService: MessageService) {}`
+                |=> This is what is called a "service-in-service" scenario - a service is injected in to another service, which
+                in turn is injected in to a component
+            - Send a message from the HelloService (`src/app/hello.service.ts`)
+                ``getHello(): Observable<Hello[]> {
+                    const hello = of(HELLO);
+                    this.messageService.add('Bonjour');
+                    return hello;
+                } ``
+            - Display the message from the helloService
+                Import the MessageService (`src/app/messages/messages.component.ts`) ...
+                    `import { MessageService } from '../message.service';`
+                ... and modify the constructor
+                    `constructor(public messageService: MessageSerice) {}`
+                    |=> Angular will inject the Message service in to the MessageComponent when it is created
+                    |=> The `messageService` property must be public if it is going to be bound to in the template
+                        |=> Angular can only bind to public component properties
+            - Bind to the MessageSeervice
+                Replace the `MessagesComponent` template with:
+
+                  ``<div *ngIf="messageService.messages.length">
+                        <h2>Messages</h2>
+                        <button class="clear"
+                            (click)="messageService.clear()">Clear messages</button>
+                        <div *ngFor='let message of messageService.messages'> {{message}} </div>
+                    </div>``
+                This template binds directly to the component's `messageComponent`
+                    |=> `*ngIf` -> displays the message area if there are messages to display
+                    |=> `*ngFor` -> presents the list of messages in the repeated <div> elements
+                    |=> Angular event binding binds the click event to `MessageService.clear()`
