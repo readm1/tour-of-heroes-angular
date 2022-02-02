@@ -150,14 +150,39 @@ Show the HelloWorldComponent
 Add Services
 
     Components shouldn't fetch or save data directly. They should focus on presenting data and delegate data access to a Service
+    Services are a great way to share information among classes that don't know each other
+    Create a service and inject it in to...
+        - other services, which will use it to implement a function
+        - components, which will display that function
 
-    ***** FOR THIS EXAMPLE I AM MAKING A `HelloService` THAT ALL COMPONENTS CAN USE TO GET GREETINGS *****
-        |=> Instead of creating the service with the `new` keyword, I'll be using Angular's dependency injection to
-        inject in to the HelloComponent constructor
-    Services are a great way to share information among classes that don't know each other. I'll be creating a `GreetingService` and injecting it in to...
-        - `HeroService`, which will use it to send a greeting
-        - `GreetingsComponent`, which will display that message
+Create a Service
 
-Create the HelloService
+    Use the Angular CLI to generate a new service
+        `ng generate service <service-name>`
+        |=> this command generates a skeleton service class in `src/app/<service-name>.service.ts`
 
+            ``import { Injectable } from '@angular/core';
+
+            @Injectable({
+                providedIn: 'root',
+            })
+            export class HeroService {
+
+                constructor() { }
+
+            }``
+
+        - The new service imports `Injectable` and anotates the class with `@Injectable()`, marking the class as part of the
+        dependency injection system. The class will provide an injectable service and can have it's own injected dependencies
+    Getting data
+        - Using a service means that you can get data from anywhere. Removing component data access means that it is really easy
+        to change the implementation of the system without having to alter the layout of your components. This abstracts the
+        system as it doesn't need to know how the service works
+        - In `src/app/<service-name>.service.ts` file:
+            - Import necesarry classes from your class file => `import { hello } from './hello';`
+            - Import any data that you will be using (web service, local storage, a mock data source) => `import { HELLO } from './mock-hello';`
+            - Add a Get method to return the data
+                ``  getHello(): Hello[] {
+                        return HELLO;
+                    } ``
     
