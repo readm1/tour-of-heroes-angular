@@ -308,3 +308,5 @@ Create a Service
                     |=> `*ngIf` -> displays the message area if there are messages to display
                     |=> `*ngFor` -> presents the list of messages in the repeated <div> elements
                     |=> Angular event binding binds the click event to `MessageService.clear()`
+
+Add Navigation
